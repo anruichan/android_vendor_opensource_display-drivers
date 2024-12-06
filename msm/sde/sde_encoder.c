@@ -4277,7 +4277,7 @@ void sde_encoder_helper_get_pp_line_count(struct drm_encoder *drm_enc,
 	}
 }
 
-void sde_encoder_helper_get_transfer_time(struct drm_encoder *drm_enc,
+/*void sde_encoder_helper_get_transfer_time(struct drm_encoder *drm_enc,
 			u32 *transfer_time_us)
 {
 	struct sde_encoder_virt *sde_enc;
@@ -4293,7 +4293,7 @@ void sde_encoder_helper_get_transfer_time(struct drm_encoder *drm_enc,
 	info = &sde_enc->mode_info;
 
 	*transfer_time_us = info->mdp_transfer_time_us;
-}
+}*/
 
 int sde_encoder_helper_reset_mixers(struct sde_encoder_phys *phys_enc,
 		struct drm_framebuffer *fb)
