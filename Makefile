@@ -59,3 +59,5 @@ LINUXINCLUDE    += -include $(srctree)/techpack/display/config/monacodispconf.h
 endif
 
 obj-$(CONFIG_DRM_MSM) += msm/
+obj-$(CONFIG_NUBIA_DISP_PREFERENCE) += nubia/
+obj-$(CONFIG_NUBIA_HDMI_FEATURE) += nubiadp/

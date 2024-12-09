@@ -4277,6 +4277,7 @@ void sde_encoder_helper_get_pp_line_count(struct drm_encoder *drm_enc,
 	}
 }
 
+#ifndef CONFIG_BOARD_NUBIA
 void sde_encoder_helper_get_transfer_time(struct drm_encoder *drm_enc,
 			u32 *transfer_time_us)
 {
@@ -4294,6 +4295,7 @@ void sde_encoder_helper_get_transfer_time(struct drm_encoder *drm_enc,
 
 	*transfer_time_us = info->mdp_transfer_time_us;
 }
+#endif
 
 int sde_encoder_helper_reset_mixers(struct sde_encoder_phys *phys_enc,
 		struct drm_framebuffer *fb)

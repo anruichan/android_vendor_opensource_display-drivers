@@ -3,6 +3,9 @@
  * Copyright (c) 2012-2020, The Linux Foundation. All rights reserved.
  */
 
+#ifdef CONFIG_BOARD_NUBIA
+#include <linux/soc/zte/usb_switch_dp.h>
+#endif
 #include <linux/soc/qcom/fsa4480-i2c.h>
 #include <linux/delay.h>
 
@@ -761,7 +764,11 @@ static int dp_aux_configure_aux_switch(struct dp_aux *dp_aux,
 {
 	struct dp_aux_private *aux;
 	int rc = 0;
+#ifdef CONFIG_BOARD_NUBIA
+	enum switcher_function event = SWITCHER_USBC_DISPLAYPORT_DISCONNECTED;
+#else
 	enum fsa_function event = FSA_USBC_DISPLAYPORT_DISCONNECTED;
+#endif
 
 	if (!dp_aux) {
 		DP_ERR("invalid input\n");
@@ -780,22 +787,38 @@ static int dp_aux_configure_aux_switch(struct dp_aux *dp_aux,
 	if (enable) {
 		switch (orientation) {
 		case ORIENTATION_CC1:
+#ifdef CONFIG_BOARD_NUBIA
+			event = SWITCHER_USBC_ORIENTATION_CC1;
+#else
 			event = FSA_USBC_ORIENTATION_CC1;
+#endif
 			break;
 		case ORIENTATION_CC2:
+#ifdef CONFIG_BOARD_NUBIA
+			event = SWITCHER_USBC_ORIENTATION_CC2;
+#else
 			event = FSA_USBC_ORIENTATION_CC2;
+#endif
 			break;
 		default:
 			DP_ERR("invalid orientation\n");
 			rc = -EINVAL;
 			goto end;
 		}
+#ifdef CONFIG_BOARD_NUBIA
+	} else {
+		event = SWITCHER_USBC_DISPLAYPORT_DISCONNECTED;
+#endif
 	}
 
 	DP_DEBUG("enable=%d, orientation=%d, event=%d\n",
 			enable, orientation, event);
 
+#ifdef CONFIG_BOARD_NUBIA
+	rc = switcher_switch_event(aux->aux_switch_node, event);
+#else
 	rc = fsa4480_switch_event(aux->aux_switch_node, event);
+#endif
 	if (rc)
 		DP_ERR("failed to configure fsa4480 i2c device (%d)\n", rc);
 end:

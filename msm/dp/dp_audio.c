@@ -754,6 +754,9 @@ static int dp_audio_on(struct dp_audio *dp_audio)
 	if (rc)
 		goto end;
 
+#ifdef CONFIG_BOARD_NUBIA
+	printk("%s,%d dp_audio_debug \n", __func__, __LINE__);
+#endif
 	rc = dp_audio_notify(audio, EXT_DISPLAY_CABLE_CONNECT);
 	if (rc)
 		goto end;
@@ -811,6 +814,9 @@ static void dp_audio_notify_work_fn(struct work_struct *work)
 
 	audio = container_of(dw, struct dp_audio_private, notify_delayed_work);
 
+#ifdef CONFIG_BOARD_NUBIA
+	printk("%s,%d dp_audio_debug \n", __func__, __LINE__);
+#endif
 	dp_audio_notify(audio, EXT_DISPLAY_CABLE_CONNECT);
 }
 

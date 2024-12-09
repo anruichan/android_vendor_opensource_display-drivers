@@ -128,6 +128,15 @@ static int dp_parser_aux(struct dp_parser *parser)
 					property,
 					i,
 					parser->aux_cfg[i].lut[j - 1]);
+#ifdef CONFIG_BOARD_NUBIA
+			if (0x24 == parser->aux_cfg[i].offset) {
+				parser->aux_cfg[i].lut[j - 1] = 0x17;
+				DP_ERR("%s lut[%d]=0x%x\n",
+					property,
+					i,
+					parser->aux_cfg[i].lut[j - 1]);
+			}
+#endif
 		}
 	}
 		return 0;

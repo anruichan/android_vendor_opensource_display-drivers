@@ -16,8 +16,16 @@
 #include "dp_pll.h"
 #include "dp_hpd.h"
 
+#ifdef CONFIG_NUBIA_HDMI_FEATURE
+#include "../../nubiadp/nubia_dp_preference.h"
+#endif
 #define DEBUG_NAME "drm_dp"
 
+#ifdef CONFIG_NUBIA_HDMI_FEATURE
+extern struct _select_sde_edid_info select_sde_edid_info;
+extern struct dp_debug_private *debug_node;
+#endif
+#ifndef CONFIG_BOARD_NUBIA
 struct dp_debug_private {
 	struct dentry *root;
 	u8 *edid;
@@ -45,6 +53,7 @@ struct dp_debug_private {
 	struct dp_pll *pll;
 	struct mutex lock;
 };
+#endif
 
 static int dp_debug_get_edid_buf(struct dp_debug_private *debug)
 {
@@ -394,6 +403,9 @@ static ssize_t dp_debug_write_edid_modes(struct file *file,
 	if (!hdisplay || !vdisplay || !vrefresh)
 		goto clear;
 
+#ifdef CONFIG_NUBIA_HDMI_FEATURE
+	select_sde_edid_info.node_control = true;
+#endif
 	debug->dp_debug.debug_en = true;
 	debug->dp_debug.hdisplay = hdisplay;
 	debug->dp_debug.vdisplay = vdisplay;
@@ -2488,6 +2500,9 @@ struct dp_debug *dp_debug_get(struct dp_debug_in *in)
 
 	dp_debug->max_pclk_khz = debug->parser->max_pclk_khz;
 
+#ifdef CONFIG_NUBIA_HDMI_FEATURE
+	debug_node = debug;
+#endif
 	return dp_debug;
 error:
 	return ERR_PTR(rc);

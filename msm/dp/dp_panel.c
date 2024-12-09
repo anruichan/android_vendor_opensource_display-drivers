@@ -83,19 +83,37 @@ struct dp_panel_private {
 };
 
 static const struct dp_panel_info fail_safe = {
+#ifdef CONFIG_BOARD_NUBIA
+	.h_active = 1920,
+	.v_active = 1080,
+	.h_back_porch = 148,
+	.h_front_porch = 88,
+	.h_sync_width = 44,
+#else
 	.h_active = 640,
 	.v_active = 480,
 	.h_back_porch = 48,
 	.h_front_porch = 16,
 	.h_sync_width = 96,
+#endif
 	.h_active_low = 0,
+#ifdef CONFIG_BOARD_NUBIA
+	.v_back_porch = 36,
+	.v_front_porch = 4,
+	.v_sync_width = 5,
+#else
 	.v_back_porch = 33,
 	.v_front_porch = 10,
 	.v_sync_width = 2,
+#endif
 	.v_active_low = 0,
 	.h_skew = 0,
 	.refresh_rate = 60,
+#ifdef CONFIG_BOARD_NUBIA
+	.pixel_clk_khz = 148500,
+#else
 	.pixel_clk_khz = 25200,
+#endif
 	.bpp = 24,
 };
 

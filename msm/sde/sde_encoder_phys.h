@@ -544,8 +544,10 @@ void sde_encoder_helper_get_pp_line_count(struct drm_encoder *drm_enc,
  * @drm_enc: Pointer to drm encoder structure
  * @transfer_time_us: Pointer to store the output value
  */
+#ifndef CONFIG_BOARD_NUBIA
 void sde_encoder_helper_get_transfer_time(struct drm_encoder *drm_enc,
 		u32 *transfer_time_us);
+#endif
 
 /**
  * sde_encoder_helper_trigger_flush - control flush helper function
